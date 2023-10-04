@@ -2,8 +2,8 @@
     class Koneksi {
         protected $conn;
 
-        public function __construct($host="localhost", $user="root", $pass="", $db="") {
-            $this->conn = new mysqli($host, $user, $pass,$db);
+        public function __construct() {
+            $this->conn = new mysqli("localhost", "root", "", "project_uts_fsp");
         }
 
         public function __destruct() {
