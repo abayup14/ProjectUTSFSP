@@ -6,8 +6,8 @@
             parent::__construct();
         }
 
-        public function getUser($iduser = "%") {
-            $sql = "SELECT * FROM users WHERE iduser LIKE ?";
+        public function getUser($iduser = "") {
+            $sql = "SELECT * FROM users WHERE iduser = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("s", $iduser);
             $stmt->execute();
