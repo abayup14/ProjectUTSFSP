@@ -22,7 +22,7 @@
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         if (isset($_SESSION["iduser"])) {
-            $_SESSION["iduser"] = $iduser;
+            $_SESSION["iduser"] = $user["iduser"];
         } 
         header("location: homepage.php");
     } else {
