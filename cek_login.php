@@ -1,6 +1,5 @@
 <?php
     session_start();
-
     echo "<script src='js/jquery-3.7.0.js'></script>";
     require_once("class/users.php");
 

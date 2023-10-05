@@ -16,7 +16,6 @@
         if (isset($_SESSION["iduser"])) {
             $iduser = $_SESSION["iduser"];
         } 
-
         echo $iduser;
 
         echo "<form action='homepage.php' method='POST'>";

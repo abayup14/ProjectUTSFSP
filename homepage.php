@@ -16,7 +16,6 @@
         if (isset($_SESSION["iduser"])) {
             $iduser = $_SESSION["iduser"];
         }
-
         echo $iduser;
         
         if (isset($_GET["judul"])) {
