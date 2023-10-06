@@ -1,7 +1,20 @@
 <?php 
     session_start();
     require_once("class/users.php");
-    require_once("class/cerita.php"); 
+    require_once("class/cerita.php");
+
+    if (isset($_SESSION)) {
+        $iduser = $_SESSION["iduser"];
+        $nama = $_SESSION["nama"];
+    } else {
+
+    }
+
+    if (isset($_GET["judul"])) {
+        $judul = "%".$_GET["judul"]."%";
+    } else {
+        $judul = "%";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,35 +25,43 @@
     <script src='js/jquery-3.7.0.js'></script>
 </head>
 <body>
+    <h1>Selamat datang, <?php echo $nama; ?></h1>
+    <form action="homepage.php" method="GET">
+        <p>
+            <label>Cari Judul: &nbsp; &nbsp;</label>
+            <input type='text' name='judul', value=''> &nbsp; &nbsp; 
+            <input type='submit' name='btncari' value='Cari'>
+        </p>
+    </form>
+    <form action="cerita_baru.php" method="GET">
+        <p><input type="submit" value="Buat Cerita Baru" name="btnbaru"></p>
+    </form>
+    <br>
+    
     <?php
-        if (isset($_SESSION["iduser"])) {
-            $iduser = $_SESSION["iduser"];
-        }
-        echo $iduser;
-        
-        if (isset($_GET["judul"])) {
-            $judul = $_GET["judul"];
-        } else {
-            $judul = "";
-        }
+        $conn = new mysqli("localhost", "root", "", "project_uts_fsp");
 
-        echo "<h1>Selamat datang</h1>";
-        echo "<form action='homepage.php' method='GET'>";
-        echo "<p>";
-        echo "<label>Cari Judul: &nbsp; &nbsp;</label>";
-        echo "<input type='text' name='judul', value='$judul'> &nbsp; &nbsp; ";
-        echo "<input type='submit' name='btncari' value='Cari'>";
-        echo "</p>";
-        echo "<p><input type='submit' value='Buat Cerita Baru' name='btnbaru'></p>";
-        echo "</form>";
-
-        echo "<br>";
-        
         echo "<table border='1'>";
         echo "<tr>";
         echo "<th>Judul</th><th>Pembuat Awal</th><th>Aksi</th>";
         echo "</tr>";
+
+        $cerita = new Cerita();
+        $result = $cerita->getCerita($judul);
+    
+        while ($row = $result->fetch_assoc()) {
+            $id_cerita = $row["idcerita"];
+            echo "<tr>";
+            echo "<td>".$row["judul"]."</td>";
+            echo "<td>".$row["nama"]."</td>";
+            echo "<td><a href='lihat_cerita.php?idcerita=$id_cerita'>Lihat Cerita</a></td>";
+            echo "</tr>";
+        }
+
         echo "</table>";
+
+        $conn->close();
     ?>
+    <p><a href="logout.php">Logout dari Website</a></p>
 </body>
 </html>
