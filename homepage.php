@@ -3,13 +3,19 @@
     require_once("class/users.php");
     require_once("class/cerita.php");
 
-    if (isset($_SESSION)) {
-        $iduser = $_SESSION["iduser"];
-        $nama = $_SESSION["nama"];
-    } else {
-        // Handle when session is not set
-        // Redirect to login page or perform other actions
+    // if (isset($_SESSION)) {
+    //     $iduser = $_SESSION["iduser"];
+    //     $nama = $_SESSION["nama"];
+    // } else {}
+    // Handle when session is not set
+    // Redirect to login page or perform other actions
+    if(!isset($_SESSION['user'])){
+        $domain= $_SERVER['HTTP_HOST'];
+        $uri = $_SERVER['REQUEST_URI']; 
+        $url = "http://".$domain.$uri;
+        header("location: index.php?redirect=$url");
     }
+    
 
     if(isset($_GET["judul"])){
         $judul = $_GET["judul"];
