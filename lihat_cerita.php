@@ -23,7 +23,19 @@
     if ($row = $result->fetch_assoc()) {
         $judul = $row["judul"];
     }
-    
+
+    if (isset($_POST["btnsimpan"])) {
+        $paragraf_baru = htmlentities(strip_tags($_POST["txttambahparagraf"]));
+        $id_cerita_baru = $_POST["id_cerita_baru"];
+
+        $add_paragraf = $cerita->insertParagraf($iduser, $id_cerita_baru, $paragraf_baru);
+
+        if ($add_paragraf == true) {
+            header("location: lihat_cerita.php?idcerita=$id_cerita_baru");
+        } else {
+            echo "<script>alert('Gagal menambahkan paragraf')</script>";
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,20 +117,6 @@
         <input type="hidden" name="id_cerita_baru" value="<?php echo $id_cerita; ?>">
         <p><input type="submit" value="Simpan" name="btnsimpan"></p>
     </form>
-    <?php 
-        if (isset($_POST["btnsimpan"])) {
-            $paragraf_baru = htmlentities(strip_tags($_POST["txttambahparagraf"]));
-            $id_cerita_baru = $_POST["id_cerita_baru"];
-
-            $add_paragraf = $cerita->insertParagraf($iduser, $id_cerita_baru, $paragraf_baru);
-
-            if ($add_paragraf == true) {
-                header("location: lihat_cerita.php?idcerita=$id_cerita_baru");
-            } else {
-                echo "<script>alert('Gagal menambahkan paragraf')</script>";
-            }
-        }
-    ?>
     <p><a href="homepage.php">Kembali ke Halaman Awal</a></p>
 </body>
 </html>

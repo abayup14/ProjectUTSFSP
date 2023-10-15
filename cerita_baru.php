@@ -10,6 +10,32 @@
     } else {
         
     }
+
+    if (isset($_POST["btnsimpan"])) {
+        $conn = new mysqli("localhost", "root", "", "project_uts_fsp");
+
+        $judul = htmlentities(strip_tags($_POST["txtjudul"]));
+        $paragraf1 = htmlentities(strip_tags($_POST["txtparagraf1"]));
+
+        $cerita = new Cerita();
+        $id_cerita = $cerita->insertCerita($judul, $iduser);
+
+        $teks_alert = "";
+
+        if ($id_cerita > 0) {
+            $add_paragraf = $cerita->insertParagraf($iduser, $id_cerita, $paragraf1);
+
+            if ($add_paragraf == true) {
+                echo "<script>alert('Berhasil menambah cerita dan berhasil menambah paragraf')</script>";
+            } else {
+                echo "<script>alert('Berhasil menambah cerita namun gagal menambah paragraf')</script>";
+            }
+        } else {
+            echo "<script>alert('Gagal menambah cerita')</script>";
+        }
+
+        $conn->close();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,32 +107,5 @@
         <p><input type='submit' name='btnsimpan' value='Simpan'></p>
     </form>
     <a href="homepage.php">Kembali ke Halaman Awal</a>
-    <?php 
-        if (isset($_POST["btnsimpan"])) {
-            $conn = new mysqli("localhost", "root", "", "project_uts_fsp");
-
-            $judul = htmlentities(strip_tags($_POST["txtjudul"]));
-            $paragraf1 = htmlentities(strip_tags($_POST["txtparagraf1"]));
-
-            $cerita = new Cerita();
-            $id_cerita = $cerita->insertCerita($judul, $iduser);
-
-            $teks_alert = "";
-
-            if ($id_cerita > 0) {
-                $add_paragraf = $cerita->insertParagraf($iduser, $id_cerita, $paragraf1);
-
-                if ($add_paragraf == true) {
-                    echo "<script>alert('Berhasil menambah cerita dan berhasil menambah paragraf')</script>";
-                } else {
-                    echo "<script>alert('Berhasil menambah cerita namun gagal menambah paragraf')</script>";
-                }
-            } else {
-                echo "<script>alert('Gagal menambah cerita')</script>";
-            }
-
-            $conn->close();
-        }
-    ?>
 </body>
 </html>
