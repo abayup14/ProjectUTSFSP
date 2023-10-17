@@ -9,7 +9,12 @@
     $id_cerita = "";
     $judul = 0;
 
-    if (isset($_SESSION["iduser"])) {
+    if (!isset($_SESSION["iduser"])) {
+        $domain= $_SERVER['HTTP_HOST'];
+        $uri = $_SERVER['REQUEST_URI']; 
+        $url = "http://".$domain.$uri;
+        header("location: index.php?redirect=$url");
+    } else {
         $iduser = $_SESSION["iduser"];
     }
 
